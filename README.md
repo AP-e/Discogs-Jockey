@@ -2,7 +2,7 @@
 A tool to help DJs to train their mixing using a DJing challenge. 
 
 ### Quick start ###
-Either install this package. Export your collection from Discogs as a .csv file, and put it in a directory called `collection`. Then run `Play_Discogs_Jockey.py` using Python.
+Either install this package, or just download it and work from inside the Discogs-Jockey directory. Export your collection from Discogs as a .csv file, and put it in a directory called `collection`. Then run `Play_Discogs_Jockey.py` using Python.
 
 ## The challenge ##
 
