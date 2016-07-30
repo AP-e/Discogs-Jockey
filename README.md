@@ -1,6 +1,9 @@
 # Discogs-Jockey
 A tool to help DJs to train their mixing using a DJing challenge. 
 
+### Quick start ###
+Either install this package. Export your collection from Discogs as a .csv file, and put it in a directory called `collection`. Then run `Play_Discogs_Jockey.py` using Python.
+
 ## The challenge ##
 
 The rules of the challenge are pretty simple: you play a set in which each record played must to be chosen from a small pool of records drawn randomly from their Discogs collection. The idea is to force the DJ to practice their mixing skills by limiting choice.
@@ -13,7 +16,7 @@ The challenge proceeds as following:
 4. Records remaining in the crate are either discarded or returned to the shelf (`replace` option).
 
 This continues, each round starting with a fresh crate, until the shelf is empty or DJ decides to finish.
-____
+__
 ## To do list
 
 ### Point scoring
@@ -34,5 +37,5 @@ Nobody wants to have to open their laptop and run a python script while DJing. D
 - Display cover art and tracklisting
 - Get user collection directly from Discogs
 
-___
+__
 Look after your ears, tinnitus is no joke.
