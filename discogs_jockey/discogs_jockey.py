@@ -106,7 +106,6 @@ def play_round(shelf, crate_size, replace):
     # Choose a record
     record, crate = make_selection(shelf, crate_size)
     
-    print  
     display_choice(record)    
     
     if replace:     # put unchosen records back on the shelf
@@ -132,13 +131,14 @@ def make_selection(shelf, max_options):
         # Put random record in crate and display to user
         option = draw_from_shelf(shelf)
         crate[i] = option
-        display_option(option, i)
-
+        #display_option(option, i)
+        display_crate(crate)
         choice = ask_to_choose(crate)
         if choice:
             break
         elif i == max_options:
             while choice is None:
+                display_crate(crate)
                 choice = ask_to_choose(crate)
         else: continue
 
@@ -155,8 +155,7 @@ def draw_from_shelf(shelf):
 
 def ask_to_choose(crate):
     """ Ask user to choose a record from the crate, returning either a valid key int to choose,`None` to continue a request to quit"""
-
-    question = "Choose a record %s \n(<Enter> to draw again, `Q` to quit or `C` to see crate)}" % crate.keys()
+    question = "Choose a record from %s \n(<Enter> to draw again, `Q` to quit)}" % crate.keys()
     choice = raw_input(question)
     
     try:
@@ -164,9 +163,7 @@ def ask_to_choose(crate):
     except ValueError: 
         if choice.lower() in ['q', 'quit', 'exit', 'stop']: # quit request
             raise StopPlaying, 'User requested to quit'
-        elif choice.lower() in ['c', 'see', 'crate', 'see crate']: # crate view request
-            display_crate(crate)
-            choice = ask_to_choose(crate)
+    
     # Only return a valid key
     return choice if choice in crate.keys() else None
 
