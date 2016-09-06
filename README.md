@@ -31,11 +31,12 @@ It would be good to disincentivise drawing the maximum allowed number of records
 ### Alternative challenge
 As an alternative to emptying the crate at each round, discarding unplayed records could stay in the crate, taking up space so that the DJ is eventually forced to choose one of them. However, they can earn the right to remove an unplayed record every few rounds or so.
 
-### Appification
-Nobody wants to have to open their laptop and run a python script while DJing. Discogs Jockey should ideally be a web app which interacts with the Discogs API, with the following features:
-- A simple GUI
+### To do
+Nobody wants to have to open their laptop and run a python script while DJing. Discogs Jockey can be made into a proper app by implementing the following improvements:
+- Use the Discogs API to retreive user collection
+- Develop a simple GUI with PyQT
 - Display cover art and tracklisting
-- Get user collection directly from Discogs
+- Allow interaction by clicking/touch
+- Port to Android and iOS
 
-__
 Look after your ears, tinnitus is no joke.
