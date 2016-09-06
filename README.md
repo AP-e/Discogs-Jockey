@@ -33,6 +33,7 @@ As an alternative to emptying the crate at each round, discarding unplayed recor
 
 ### To do
 Nobody wants to have to open their laptop and run a python script while DJing. Discogs Jockey can be made into a proper app by implementing the following improvements:
+- Convert from Python 2.7 to 3.5
 - Use the Discogs API to retreive user collection
 - Develop a simple GUI with PyQT
 - Display cover art and tracklisting
