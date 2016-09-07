@@ -1,2 +1,5 @@
-*.pyc
+build
+dist
+Discogs_Jockey.egg-info
 *.csv
+*.pyc
