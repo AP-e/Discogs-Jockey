@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """ Discogs Jockey """
 
 import csv
@@ -52,7 +50,7 @@ def start_set(shelf, crate_size, replace):
     
     # Play rounds until no more records
     while len(shelf) > crate_size:  
-        print  '\n ~~~ Starting next selection ~~~ \n'
+        print('\n ~~~ Starting next selection ~~~ \n')
         try:
             record, crate = play_round(shelf, crate_size, replace)
         except StopPlaying:
@@ -74,7 +72,7 @@ def initialise_shelf(fpath):
         try:
             fpath = glob(os.path.join(data_dir , '*.csv'))[0]
         except IndexError:
-            raise NoData, 'No .csv files found in %s directory' % data_dir
+            raise NoData, 'No .csv files found in {} directory'.format(data_dir)
     
     # Read csv to list
     with open(fpath) as csvfile:
@@ -155,7 +153,7 @@ def draw_from_shelf(shelf):
 
 def ask_to_choose(crate):
     """ Ask user to choose a record from the crate, returning either a valid key int to choose,`None` to continue a request to quit"""
-    question = "Choose a record from %s \n(<Enter> to draw again, `Q` to quit)}" % crate.keys()
+    question = "Choose a record from {} \n(<Enter> to draw again, `Q` to quit)}".format(crate.keys())
     choice = raw_input(question)
     
     try:
@@ -169,28 +167,28 @@ def ask_to_choose(crate):
 
 def describe_record(record):
     """ Return a two-line description of the record (Artist -- Title, [Label -- CAT#]."""
-    line1 = ' -- '.join((record.artist, record.title)) + ' (%s)' % record.year
-    line2 = '[%s -- %s]' % (record.label, record.catalog_number)
+    line1 = ' -- '.join((record.artist, record.title)) + ' ({})'.format(record.year)
+    line2 = '[{} -- {}]'.format(record.label, record.catalog_number)
     
     return '\n'.join((line1, line2))
 
 def display_option(option, k):
     """ Show user the option and the number."""
-    print '\n\t\t > %s <\n'% k, describe_record(option), '\n'
+    print('\n\t\t > {} <\n'.format(k), describe_record(option), '\n')
     
 def display_crate(crate):
     """ Print current options to user. """
-    print '\n'*3, '\t\t YOU HAVE THE FOLLOWING OPTIONS:\n', '_'*60,
+    print('\n'*3, '\t\t YOU HAVE THE FOLLOWING OPTIONS:\n', '_'*60,)
     for k, option in crate.iteritems():
         display_option(option, k)
-    print '_'*60, '\n'*3
+    print('_'*60, '\n'*3)
     
 def display_choice(record):
     """ Inform user of chosen record, with lots of spacing."""
-    print '\n'*3 + '\t\t YOU CHOSE TO PLAY:'
-    print '*'*70 + '\n\t','\n\t'.join(describe_record(record).split('\n')), '\n' + '*'*70 + '\n'*3
+    print('\n'*3 + '\t\t YOU CHOSE TO PLAY:')
+    print('*'*70 + '\n\t','\n\t'.join(describe_record(record).split('\n')), '\n' + '*'*70 + '\n'*3)
     
 def display_finish(history):
     """ Inform user that game is over."""
-    print '\n', '#'*60
-    print "%s records played.\nI'll have a glass of water please, mate." % len(history)
+    print('\n', '#'*60)
+    print("{} records played.\nI'll have a glass of water please, mate.".format(len(history)))
