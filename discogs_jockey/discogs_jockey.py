@@ -72,7 +72,7 @@ def initialise_shelf(fpath):
         try:
             fpath = glob(os.path.join(data_dir , '*.csv'))[0]
         except IndexError:
-            raise NoData, 'No .csv files found in {} directory'.format(data_dir)
+            raise NoData('No .csv files found in {} directory'.format(data_dir))
     
     # Read csv to list
     with open(fpath) as csvfile:
@@ -160,7 +160,7 @@ def ask_to_choose(crate):
         choice = int(choice)
     except ValueError: 
         if choice.lower() in ['q', 'quit', 'exit', 'stop']: # quit request
-            raise StopPlaying, 'User requested to quit'
+            raise StopPlaying('User requested to quit')
     
     # Only return a valid key
     return choice if choice in crate.keys() else None
