@@ -153,8 +153,8 @@ def draw_from_shelf(shelf):
 
 def ask_to_choose(crate):
     """ Ask user to choose a record from the crate, returning either a valid key int to choose,`None` to continue a request to quit"""
-    question = "Choose a record from {} \n(<Enter> to draw again, `Q` to quit)}".format(crate.keys())
-    choice = raw_input(question)
+    question = "Choose a record from {} \n(<Enter> to draw again, `Q` to quit)".format(crate.keys())
+    choice = input(question)
     
     try:
         choice = int(choice)
