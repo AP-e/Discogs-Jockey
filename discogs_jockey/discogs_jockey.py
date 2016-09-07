@@ -179,7 +179,7 @@ def display_option(option, k):
 def display_crate(crate):
     """ Print current options to user. """
     print('\n'*3, '\t\t YOU HAVE THE FOLLOWING OPTIONS:\n', '_'*60,)
-    for k, option in crate.iteritems():
+    for k, option in iter(crate.items()):
         display_option(option, k)
     print('_'*60, '\n'*3)
     
