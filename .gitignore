@@ -3,3 +3,4 @@ dist
 Discogs_Jockey.egg-info
 *.csv
 *.pyc
+config.sh
