@@ -15,16 +15,6 @@ class NoData(IOError):
     pass
 
 
-class Record(object):
-    """ A vinyl record. Do not leave in direct sunlight. """
-    def __init__(self, catalog_number, artist, title, label, year, release_id):
-        self.catalog_number = catalog_number
-        self.artist = artist
-        self.title = title
-        self.label = label
-        self.year = year
-        self._id = release_id
-
 def play_discogs_jockey(collection=None, crate_size=3, replace=False):
     """ Start the Discogs Jockey challenge.
     Args:
