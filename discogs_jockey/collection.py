@@ -4,6 +4,7 @@ Module for loading a collection from various sources to a shelf of Records.
 Note that discogs server requests should be rate limited.
 """
 from discogs_client.models import Release, CollectionFolder
+from pandas import DataFrame
 
 class Record(object):
     """ A vinyl record, do not leave in direct sunlight. """
@@ -42,18 +43,24 @@ class Record(object):
 class Shelf():
     """ A shelf to hold Records. """
 
+    # Acceptable and unacceptable release formats
+    formats = {'good': ['Vinyl'],
+               'bad': ['CD', 'CDr', 'DVD', 'USB', 'Cass', 'Cassette', 'File',
+                       'MP3', 'WAV', 'FLAC']}
+    
     def __init__(self, collection):
         """ Fill shelf with Records from either csv or discogs collection."""
     
         if isinstance(collection, CollectionFolder):
             self._initialise_from_folder(collection)
-        elif isinstance(collection, ...): # from csv
-            NotImplemented
+        elif isinstance(collection, DataFrame): # from pandas
+            initialise_from_df(collection)
+        else:
+            raise TypeError('Invalid collection type: {}'.format(
+                    type(collection)))
 
     def _initialise_from_folder(self, folder):
         """ Coerce discogs_client.models.CollectionFolder to Records."""
-        
-        good_formats = ['Vinyl',] # names of acceptable record formats
 
         # Extract Release objects from folder
         records = {} # ids as keys to merge copies
@@ -61,7 +68,11 @@ class Shelf():
             release = item.release
             # Only store wax (i.e. exclude CDs, Tapes, MP3s etc)
             formats = [format['name'] for format in release.formats]
-            if not set(formats).isdisjoint(good_formats):
+            if not set(formats).isdisjoint(Shelf.formats['good']):
                 records[release.id] = release
         
         self.records = records
+
+    def _initialise_from_df(self, df):
+        """  Coerce pandas.core.frame.DataFrame object to Records. """
+        NotImplemented 
