@@ -4,16 +4,11 @@ import csv
 from numpy import random
 import os
 from glob import glob
+from .exceptions import NoData
 
 class StopPlaying(Exception):
     """ Used to process a quit request."""
     pass
-
-
-class NoData(IOError):
-    """.tv"""
-    pass
-
 
 def play_discogs_jockey(collection=None, crate_size=3, replace=False):
     """ Start the Discogs Jockey challenge.
