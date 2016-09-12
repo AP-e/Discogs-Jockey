@@ -4,16 +4,18 @@ Module for loading a collection from various sources to a shelf of Records.
 Note that discogs server requests should be rate limited.
 """
 from discogs_client.models import Release, CollectionFolder
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 class Record(object):
     """ A vinyl record, do not leave in direct sunlight. """
     
     def __init__(self, release):
-        if isinstance(release, Release):
-            self._initialise_from_release()
-        elif isinstance(release, dict):
-            self._initialise_from_dict()
+        if isinstance(release, Release): # from discogs client
+            self._initialise_from_release(release)
+        elif isinstance(release, Series): # from csv
+            self._initialise_from_series(release)
+        elif isinstance(release, dict): # user defined
+            self._initialise_from_dict(release)
         else:
             raise TypeError('Invalid release type: {}'.format(type(release)))
     
@@ -36,8 +38,12 @@ class Record(object):
         self.title = release.title
         self.artists = [artist.name for artist in release.artists]
         self.labels, self.cat_nums = zip(*[(label.data['name'],
-                label.data['catno']) for label in release.labels]) # append loop
+                label.data['catno']) for label in release.labels]) #append loop
         self.year = release.year
+
+    def _initialise_from_series(self, series):
+        """ Assign Record from pandas.core.series.Series object """
+        NotImplemented
 
 
 class Shelf():
