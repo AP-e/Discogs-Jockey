@@ -43,8 +43,13 @@ class Record(object):
 
     def _initialise_from_series(self, series):
         """ Assign Record from pandas.core.series.Series object """
-        NotImplemented
-
+        
+        self.release_id = series['release_id']
+        self.title = series['Title']
+        self.artists = series['Artist']
+        self.labels = series['Label'].split(',')
+        self.cat_nums = series['Catalog#'].split(',')
+        self.year = series['Released']
 
 class Shelf():
     """ A shelf to hold Records. """
@@ -56,11 +61,13 @@ class Shelf():
     
     def __init__(self, collection):
         """ Fill shelf with Records from either csv or discogs collection."""
-    
+        
+        self.records = {} # records stored in dict by id to merge copies 
+        
         if isinstance(collection, CollectionFolder):
             self._initialise_from_folder(collection)
         elif isinstance(collection, DataFrame): # from pandas
-            initialise_from_df(collection)
+            self._initialise_from_df(collection)
         else:
             raise TypeError('Invalid collection type: {}'.format(
                     type(collection)))
@@ -75,10 +82,14 @@ class Shelf():
             # Only store wax (i.e. exclude CDs, Tapes, MP3s etc)
             formats = [format['name'] for format in release.formats]
             if not set(formats).isdisjoint(Shelf.formats['good']):
-                records[release.id] = release
+                self.records[release.id] = release
         
         self.records = records
 
     def _initialise_from_df(self, df):
         """  Coerce pandas.core.frame.DataFrame object to Records. """
-        NotImplemented 
+        for i, release in df.iterrows():
+            # Exclude non-wax releases
+            formats = release['Format'].split(',')
+            if set(formats).isdisjoint(Shelf.formats['bad']):
+                self.records[release['release_id']] = Record(release)
