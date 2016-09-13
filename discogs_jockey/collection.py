@@ -5,6 +5,7 @@ Note that discogs server requests should be rate limited.
 """
 from discogs_client.models import Release, CollectionFolder
 from pandas import DataFrame, Series
+import random
 
 class Record(object):
     """ A vinyl record, do not leave in direct sunlight. """
@@ -51,7 +52,53 @@ class Record(object):
         self.cat_nums = series['Catalog#'].split(',')
         self.year = series['Released']
 
-class Shelf():
+
+class Crate():
+    """ An old milk crate, repurposed for holding Records."""
+    
+    def __init__(self):
+        """ Store records as {release_id: `Record`}. """
+        self.records = {}
+    
+    def __len__(self):
+        return len(self.records)
+    
+    def add_records(self, records):
+        """ Add records (single or iterable)."""
+
+        # Coerce single record to iterable
+        try:
+            records = iter(records)
+        except(TypeError):
+            records = [records]
+
+        # Add records to collection
+        for record in records:
+            self.records[record.release_id] = record
+   
+    def pick_records(self, n):                                                    
+        """ Return list of `n` records removed at random.
+        
+        `n` will be coerced to be < len(self.records)
+        """                                          
+        # Don't try and pick more records than there are                           
+        n = min(len(self), n)
+
+        records = []
+        for i in range(n):
+            # Randomly pop record
+            pick = random.choice(list(self.records.keys()))                          
+            records.append(self.records.pop(pick))
+        
+        return records
+    
+    def empty(self):
+        """ Remove all records and return them as list. """
+        return [self.records.popitem()[1]
+                for i in range(len(self))]
+
+
+class Shelf(Crate):
     """ A shelf to hold Records. """
 
     # Acceptable and unacceptable release formats
@@ -62,9 +109,10 @@ class Shelf():
     def __init__(self, collection):
         """ Fill shelf with Records from either csv or discogs collection."""
         
-        self.records = {} # records stored in dict by id to merge copies 
-        
-        if isinstance(collection, CollectionFolder):
+        super().__init__()  
+        if collection is None:
+            pass # let shelf remain empty
+        elif isinstance(collection, CollectionFolder):
             self._initialise_from_folder(collection)
         elif isinstance(collection, DataFrame): # from pandas
             self._initialise_from_df(collection)
@@ -93,3 +141,4 @@ class Shelf():
             formats = release['Format'].split(',')
             if set(formats).isdisjoint(Shelf.formats['bad']):
                 self.records[release['release_id']] = Record(release)
+   
