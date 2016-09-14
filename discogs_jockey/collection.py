@@ -76,7 +76,17 @@ class Crate():
         for record in records:
             self.records[record.release_id] = record
    
-    def pick_records(self, n):                                                    
+    def pick_records(self, ids):
+        """ Remove and return specific records.
+        
+        Args:
+            ids ::: iterable of release_ids of records to return
+        Returns:
+            records ::: list of Record objects
+        """
+        return [self.records.pop(id) for id in ids]
+
+    def random_records(self, n):                                                    
         """ Return list of `n` records removed at random.
         
         `n` will be coerced to be < len(self.records)
