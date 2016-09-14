@@ -4,6 +4,7 @@ Module for loading a collection from various sources to a shelf of Records.
 Note that discogs server requests should be rate limited.
 """
 from discogs_client.models import Release, CollectionFolder
+from collections import OrderedDict
 from pandas import DataFrame, Series
 import random
 
@@ -58,7 +59,7 @@ class Crate():
     
     def __init__(self):
         """ Store records as {release_id: `Record`}. """
-        self.records = {}
+        self.records = OrderedDict()
     
     def __len__(self):
         return len(self.records)
