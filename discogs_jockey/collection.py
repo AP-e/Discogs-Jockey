@@ -38,7 +38,7 @@ class Record(object):
         
         self.release_id = release.id
         self.title = release.title
-        self.artists = [artist.name for artist in release.artists]
+        self.artists = self._get_artists(release)  
         self.labels, self.cat_nums = zip(*[(label.data['name'],
                 label.data['catno']) for label in release.labels]) #append loop
         self.year = release.year
@@ -53,7 +53,30 @@ class Record(object):
         self.cat_nums = series['Catalog#'].split(',')
         self.year = series['Released']
 
-
+    def _get_artists(self, release):
+        """ Return a string of artists names from a release. """
+        
+        # Construct `artists` string artist by artist
+        artists = ""
+        for artist in release.data['artists']:
+            name = artist['anv'] if artist['anv'] else artist['name']
+            join = artist['join']
+            
+            if join: # format the join character for display
+                if join in [',', ';']:
+                    join += ' ' # add a space
+                else:
+                    join = ' {} '.format(join) # surround by spaces
+            
+            # Build up artists
+            artists += name + join
+         
+        # Sometimes last artist has a join that needs removal
+        if join:
+            artists = artists[:-len(join)] # trim off final join        
+        
+        return artists
+ 
 class Crate():
     """ An old milk crate, repurposed for holding Records."""
     
