@@ -135,15 +135,12 @@ class Shelf(Crate):
         """ Coerce discogs_client.models.CollectionFolder to Records."""
 
         # Extract Release objects from folder
-        records = {} # ids as keys to merge copies
         for item in folder.releases:
             release = item.release
             # Only store wax (i.e. exclude CDs, Tapes, MP3s etc)
             formats = [format['name'] for format in release.formats]
             if not set(formats).isdisjoint(Shelf.formats['good']):
                 self.records[release.id] = release
-        
-        self.records = records
 
     def _initialise_from_df(self, df):
         """  Coerce pandas.core.frame.DataFrame object to Records. """
