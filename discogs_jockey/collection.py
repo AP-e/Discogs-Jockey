@@ -140,7 +140,7 @@ class Shelf(Crate):
             # Only store wax (i.e. exclude CDs, Tapes, MP3s etc)
             formats = [format['name'] for format in release.formats]
             if not set(formats).isdisjoint(Shelf.formats['good']):
-                self.records[release.id] = release
+                self.records[release.id] = Record(release)
 
     def _initialise_from_df(self, df):
         """  Coerce pandas.core.frame.DataFrame object to Records. """
