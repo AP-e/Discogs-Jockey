@@ -50,7 +50,21 @@ class Interactor:
         """ Present the played and rejected records per round."""
         NotImplemented
 
+    @abc.abstractmethod
+    def request_username(self):
+        """ Prompt user to enter their discogs username."""
+        NotImplemented
 
+    @abc.abstractmethod
+    def bad_username(self, username):
+        """ Inform user that their username has not been recognised. """
+        NotImplemented
+    
+    @abc.abstractmethod
+    def greet_user(self, user):
+        """ Confirm user has been found on discogs. """
+        NotImplemented
+     
 class TerminalInteractor(Interactor):
     """ Methods to display info to, and get input from, user.
     Must have:
@@ -156,3 +170,18 @@ class TerminalInteractor(Interactor):
         for k, round in sorted(history.items()):
             self.display_new_round(k)
             self.display_record(*round['played'])
+ 
+    def request_username(self):
+        """ Prompt user to enter their discogs username."""
+        username = input("Please enter your Discogs username:")
+        return username
+
+    def bad_username(self, username):
+        """ Inform user that their username has not been recognised. """
+        NotImplemented
+        print("Discogs username '{}' not found, please try again.".format(
+                username.lower()))
+    
+    def greet_user(self, user):
+        """ Confirm user has been found on discogs. """
+        print("Hello {}.".format(user.username))
