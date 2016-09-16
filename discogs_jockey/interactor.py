@@ -50,6 +50,25 @@ class Interactor:
         """ Present the played and rejected records per round."""
         NotImplemented
 
+    @abc.abstractmethod
+    def request_username(self):
+        """ Prompt user to enter their discogs username."""
+        return username
+
+    @abc.abstractmethod
+    def bad_username(self, username):
+        """ Inform user that their username has not been recognised. """
+        NotImplemented
+    
+    @abc.abstractmethod
+    def greet_user(self, user):
+        """ Confirm user has been found on discogs. """
+        NotImplemented
+
+    @abc.abstractmethod
+    def request_authorisation(self, auth_url):
+        """ Prompt user to verify and return authorisation code."""
+        return auth_code
 
 class TerminalInteractor(Interactor):
     """ Methods to display info to, and get input from, user.
@@ -156,3 +175,30 @@ class TerminalInteractor(Interactor):
         for k, round in sorted(history.items()):
             self.display_new_round(k)
             self.display_record(*round['played'])
+ 
+    def request_username(self):
+        """ Prompt user to enter their discogs username."""
+        username = input("Please enter your Discogs username:")
+        return username
+
+    def bad_username(self, username):
+        """ Inform user that their username has not been recognised. """
+        NotImplemented
+        print("Discogs username '{}' not found, please try again.".format(
+                username.lower()))
+    
+    def greet_user(self, user):
+        """ Confirm user has been found on discogs. """
+        print("Hello {}.".format(user.username))
+
+    def request_authorisation(self, auth_url):
+        """ Prompt user to verify and return authorisation code.
+        Args:
+            auth_url ::: str authorisation url
+        Returns:
+            auth_code ::: user-supplied authorisation code
+        """
+        print('Please follow this link to authorise Discogs Jockey to access your collection:' )
+        print('{}'.format(auth_url))
+        auth_code = input('Authorisation code:')
+        return auth_code         
