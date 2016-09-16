@@ -53,7 +53,7 @@ class Interactor:
     @abc.abstractmethod
     def request_username(self):
         """ Prompt user to enter their discogs username."""
-        NotImplemented
+        return username
 
     @abc.abstractmethod
     def bad_username(self, username):
@@ -64,7 +64,12 @@ class Interactor:
     def greet_user(self, user):
         """ Confirm user has been found on discogs. """
         NotImplemented
-     
+
+    @abc.abstractmethod
+    def request_authorisation(self, auth_url):
+        """ Prompt user to verify and return authorisation code."""
+        return auth_code
+
 class TerminalInteractor(Interactor):
     """ Methods to display info to, and get input from, user.
     Must have:
@@ -185,3 +190,15 @@ class TerminalInteractor(Interactor):
     def greet_user(self, user):
         """ Confirm user has been found on discogs. """
         print("Hello {}.".format(user.username))
+
+    def request_authorisation(self, auth_url):
+        """ Prompt user to verify and return authorisation code.
+        Args:
+            auth_url ::: str authorisation url
+        Returns:
+            auth_code ::: user-supplied authorisation code
+        """
+        print('Please follow this link to authorise Discogs Jockey to access your collection:' )
+        print('{}'.format(auth_url))
+        auth_code = input('Authorisation code:')
+        return auth_code         
