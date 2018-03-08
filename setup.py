@@ -9,6 +9,7 @@ setup(name='Discogs Jockey',
       version='0.1',
       description='DJ mixing tool',
       url='https://github.com/AP-e/Discogs-Jockey',
-      packages=['discogs_jockey']
+      packages=['discogs_jockey'],
+      install_requires=['discogs-client', 'pandas']
      )
 
