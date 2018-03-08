@@ -28,6 +28,7 @@ def get_collection_online():
         collection = get_collection_from_discogs(io)
     except HTTPError: # it's not possible to get anything other than code 400
         print('Authorisation failed, try again?') # or upload collection, etc    
+        raise
     return collection
 
 collection = get_collection_online()
