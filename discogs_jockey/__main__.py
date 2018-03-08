@@ -7,6 +7,7 @@ from discogs_jockey.interactor import TerminalInteractor
 from discogs_jockey.load import load_from_dir
 from discogs_jockey.game import Game
 from discogs_jockey.discogs_api import get_collection_from_discogs
+from discogs_client.exceptions import HTTPError
 
 # Initialise interactor
 io = TerminalInteractor()
